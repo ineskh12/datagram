@@ -53,6 +53,7 @@ export default function Users() {
 
 
   const baseUrl = 'https://fakestoreapi.com/users'
+  
   const [users, setUsers] = useState([]);
   const [FiltredUsers, setFiltredUsers] = useState([]);
 
@@ -134,6 +135,7 @@ export default function Users() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
+            <TableCell align="right">Id</TableCell>
               <TableCell  >
                 <TableSortLabel
                   active={true}
@@ -155,15 +157,25 @@ export default function Users() {
               <TableCell align="right">Phone</TableCell>
               <TableCell align="right">Address</TableCell>
               <TableCell align="right">Action</TableCell>
+             
 
             </TableRow>
           </TableHead>
           <TableBody>
             {FiltredUsers.map((row, id) => (
+              
               <TableRow
                 key={id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
+                <TableCell align="right">
+                
+                
+                {row.id}
+                
+                
+                
+                </TableCell>
                 <TableCell component="th" scope="row">
                   {row.name.firstname}  {row.name.lastname}
                 </TableCell>

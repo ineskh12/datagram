@@ -1,28 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import { Carts, Home, Login, Users,Products } from './pages'
+import { Carts, Home, Login, Users, Products } from './pages'
 import AddProducts from './pages/products/AddProducts'
 import EditProduct from './pages/products/EditProduct'
 import { Header, ContentAndFooter } from './components';
 
 import { useCookies } from 'react-cookie';
-import Details  from './pages/products/Details';
-import DetailsCart  from './pages/carts/DetailsCart';
-import UserDetails  from './pages/users/UserDetails';
+import Details from './pages/products/Details';
+import DetailsCart from './pages/carts/DetailsCart';
+import UserDetails from './pages/users/UserDetails';
 
 function App() {
   const [token, setToken] = useState(null);
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
   useEffect(() => {
-    if (cookies.token)
+    if (cookies.token && cookies.token === "eyJr389hbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9")
       setToken(cookies.token);
+
 
   }, [cookies.token])
 
+
   function HandleAuth(logged, token) {
-   // console.log({ logged, token });
+    // console.log({ logged, token });
     setCookie('token', token, { path: '/', maxAge: 3600 });
     setToken(token)
   }
@@ -42,7 +44,7 @@ function App() {
               <Route exact path="/" component={Home} />
               <Route exact path="/users" component={Users} />
               <Route exact path="/carts" component={Carts} />
-             
+
               <Route exact path="/products" component={Products} />
               <Route exact path="/AddProducts" component={AddProducts} />
               <Route exact path="/More" component={Details} />

@@ -25,6 +25,7 @@ export default function ComplexGrid() {
   
   return (
     <Paper sx={{ p: 2, margin: 'auto', maxWidth: 1000, flexGrow: 1 }}>
+  product id :{location.state.id}
    
       <Grid container spacing={2}>
         <Grid item>

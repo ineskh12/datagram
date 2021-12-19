@@ -36,7 +36,7 @@ export default function DetailsCart() {
   return (
     <Paper sx={{ p: 2, margin: 'auto', maxWidth: 1000, flexGrow: 1 }}>
           <Typography variant="h2" component="h1" gutterBottom>
-          User where  the Carts linked to it by user id 
+          User where  the Carts linked to it by user id : {location.state.id}
       </Typography>
 
       <Grid container spacing={2}>
@@ -45,6 +45,7 @@ export default function DetailsCart() {
           <Grid item xs container direction="column" spacing={2}>
           {usr.map((row, id) => (
             <Grid item xs   key={id}>
+
               <Typography gutterBottom variant="subtitle1" component="div">
        
               { moment(row.date).format("DD/MM/YYYY")}
@@ -56,7 +57,8 @@ export default function DetailsCart() {
         key={id}
         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
       >
-     Product quantity : {row2.quantity}
+    Product id : {row2.productId} , Product quantity : {row2.quantity}
+  
 
   
         

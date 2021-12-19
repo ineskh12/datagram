@@ -35,7 +35,9 @@ export default function DetailsCart() {
   return (
     <Paper sx={{ p: 2, margin: 'auto', maxWidth: 1000, flexGrow: 1 }}>
           <Typography variant="h2" component="h1" gutterBottom>
-      Detail cart by user id 
+      Detail cart by user id  :{location.state.userId}<br/>
+      cart id :{location.state.id}
+    
       </Typography>
 
       <Grid container spacing={2}>
@@ -53,7 +55,9 @@ export default function DetailsCart() {
               </Typography>
              
               <Typography variant="body2" gutterBottom>
+
               Total of products: { location.state.products.length}
+
             
               </Typography>
           
