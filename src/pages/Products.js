@@ -8,7 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import Grid from '@mui/material/Grid';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Card from '@mui/material/Card';
-import { Button, CardContent, Dialog, DialogActions, DialogTitle, IconButton, Typography } from "@mui/material"
+import {  CardContent ,IconButton, MenuItem, TextField, Typography } from "@mui/material"
 import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -16,11 +16,11 @@ import { Link } from 'react-router-dom';
 export default function Products() {
 
   const baseUrl='https://fakestoreapi.com/products'
-  const [open, setOpen] = React.useState(false);
+ 
   const [prod, setProds] = useState([]);
   const [cat, setCats] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [idTodelete, setIdTodelete] = useState(null);
+
   //const [prodFitred, setProdsFitred] = useState([]);
   useEffect(() => {
     setLoading(true)
@@ -90,29 +90,9 @@ const searchFilterFunction = event => {
 
 
 
-  const handleClickOpen = (id) => {
-    setOpen(true);
-    setIdTodelete(id)
-  };
+ 
+ 
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const submitDelete = () => {
-
-    handleClose();
-    setLoading(true);
-    axios.delete('https://fakestoreapi.com/products/' + idTodelete).then(result => {
-    
-      setLoading(false);
-      alert('Product with ' + idTodelete + ' was deleted');
-    })
-      .catch((err) => {
-        setLoading(false)
-        alert('error loading product data')
-      })
-  }
 
 
   return (
@@ -127,7 +107,30 @@ const searchFilterFunction = event => {
    
 
 
+  
+      <TextField
+  
+    className="form-control" 
+    onChange={(val) => searchFilterFunction(val)}
+    ame="categorie"
+  select 
+  label="Category"
+  fullWidth
+>
+  <MenuItem value={''}>filtre by category</MenuItem>
 
+
+  {cat.map((value,id) => (
+            
+            <MenuItem value={value} key={id}>
+              {value}
+            </MenuItem>
+          ))}
+ 
+</TextField>               
+
+
+{/* 
           <select className="form-control" name="categorie" onChange={(val) => searchFilterFunction(val)}   aria-label="Default select example">
                           
                           
@@ -142,11 +145,11 @@ const searchFilterFunction = event => {
           ))}
                           
   </select>
-      
+       */}
       
       <IconButton color="primary" aria-label="upload picture" component="span">
         <Link to={`/AddProducts`} className="btn btn-success">
-          <AddIcon />
+          <AddIcon /> Add new product
         </Link>
 
       </IconButton>
@@ -178,30 +181,24 @@ const searchFilterFunction = event => {
 
 
 
-                  <IconButton color="primary" aria-label="upload picture" component="span">
-                    <Link to={{
-                      pathname: '/EditProduct',
-                      state: row
-                    }} >
-                      <ModeEditOutlineIcon />
-                    </Link>
-
-                  </IconButton>
-                  <IconButton onClick={() => handleClickOpen(row.id)} color="primary" aria-label="upload picture" component="span">
-                  
-                    <DeleteIcon />
+                
+                  <Link to={`/Edit/${row.id}`} className="btn btn-success">
+                  <ModeEditOutlineIcon />
+            </Link>
+            
+               
                  
-                  </IconButton>
+                  <Link to={`/Delete/${row.id}`} className="btn btn-success">
+                  <DeleteIcon />
+            </Link>
+                    
                 
                   <IconButton color="primary" aria-label="upload picture" component="span">
                   
-
-                  <Link to={{
-                      pathname: '/More',
-                      state: row
-                    }} >
-                                
-                                   <MoreHorizIcon/>    </Link>
+                
+                  <Link to={`/More/${row.id}`} className="btn btn-success">
+                    <MoreHorizIcon/>
+            </Link>
                   </IconButton>
 
                 </CardActions>
@@ -211,23 +208,7 @@ const searchFilterFunction = event => {
         </Grid>
 
       }
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Do you really want to delete this product"}
-        </DialogTitle>
-     
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={() => submitDelete()} >
-            Accept
-          </Button>
-        </DialogActions>
-      </Dialog>
+  
     </div >
   );
 }

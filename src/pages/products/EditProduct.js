@@ -1,129 +1,133 @@
-import React, { useState } from 'react';
-import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
-import { makeStyles } from '@mui/styles';
-import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import React,{useEffect,useState} from 'react'
+import {useParams} from "react-router-dom"
+import axios from "axios";
+import {useHistory} from "react-router-dom"
+import { Button, Paper, TextField } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+const EditProduct = (props) => {
+    const history=useHistory()
+    const {id}=useParams()
+    const [title,setTitle]=useState("")
+    const [price,setPrice]=useState("");
+    const [img,setImage]=useState("");
+    const [category,setCategory]=useState("");
+    useEffect(()=>{
+        axios.get(`https://fakestoreapi.com/products/${id}`).then(res => {
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-    },
-  },
-  button: {
-    margin: theme.spacing(1),
-  }
-}))
+         console.log(res);
+         setTitle(res.data.title)
+            setPrice(res.data.price)
+            setImage(res.data.image)
+            setCategory(res.data.category)
+            
+        }).catch(err => console.log(err))
+    },[id])
 
-
-export default function BasicSelect(props) {
-  const classes = useStyles()
-  let location = useLocation();
-
-  const [title, setTitle] = useState(location.state.title);
-  const [description, setDescription] = useState(location.state.description);
-  const [price, setPrice] = useState(location.state.price);
-  const [category, setCategory] = useState(location.state.category);
-  const [image, setImage] = useState(location.state.image);
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    setLoading(true)
-    axios.put('https://fakestoreapi.com/products/' + location.state.id, {
-      title: title,
-      price: parseFloat(price),
-      description: description,
-      image: image,
-      category: category,
-    })
-      .then(result => {
-        if (result.status === 200) {
-          setLoading(false)
-          alert('Modification successfully completed')
+    const handleSubmit=(event)=>{
+        event.preventDefault();
+        if(title === "" || price === "" || img === "" || category === "") return
+        const updatedMovie={
+            id,
+            title,
+            price,
+            imageURL:img,
+            category
         }
+        axios.put(`https://fakestoreapi.com/products/${id}`,updatedMovie)
+        .then(res =>
+          alert('Updated  with  success'),
+          history.push("/products")
+        ).catch(err => console.log(err))
+     
+    }
+    const handleCancelPost = () => {
+      props.history.push("/products");
 
-        props.history.push("/products");
-      }).catch(err => {
-
-
-        setLoading(false)
-        alert(err)
-      })
-  };
-
-
-  return (
-    <Container>
-      <h1>Edit Product</h1>
-      <form className={classes.root} onSubmit={handleSubmit}>
-
-        <div>
-          <TextField
-            name="title"
-            label="title"
-            variant="filled"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          /><br />
-          <TextField
-            name="price"
-            label="price"
-            variant="filled"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
-          <br />
-          <TextField
-            name="category"
-            label="category"
-            variant="filled"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          /><br />
-          <TextField
-            name="description"
-            label="description"
-            variant="filled"
-            multiline
-
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          /><br />
-          <TextField
-            name="image"
-            label="Image URL"
-            variant="filled"
-            multiline
-
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-          /><br />
-          
-        </div>
-
-        <Button
-          className={classes.button}
-          variant="contained"
-          color="primary"
-          type="submit"
-
-        onClick={handleSubmit}
-        >{loading ? <CircularProgress color="inherit" /> : 'Update'}</Button>
-
-        {loading ? null : <Button
-          className={classes.button}
-          variant="contained"
-          color="default"
-          type="submit"
-
-          onClick={() => props.history.push("/products")}
-        >Cancel</Button>}
-      </form>
-    </Container>
-  );
 }
+    return (
+      <Paper sx={{ p: 2, margin: 'auto', maxWidth: 1000, flexGrow: 1 }}>
+       <div className='container'>
+     
+        <h5 className="card-header">Mise à jour </h5>
+        
+                
+            
+                <div className="form-group">
+                <form onSubmit={handleSubmit}>
+    
+            <div className="form-row">
+                <div className="form-group">
+                
+                    <TextField fullWidth  label="Title" type="text" 
+                            className="form-control" 
+                            name="title"
+                            value={title}
+                            style={{marginBottom:"30px"}}
+                            onChange={(e)=> setTitle(e.target.value)}
+                           />
+                </div>
+
+                <div className="form-group ">
+                   
+                    <TextField fullWidth label="Price"
+                            type="text" 
+                            className="form-control" 
+                            name="price"
+                            value={price}
+                            style={{marginBottom:"30px"}}
+                            onChange={(e)=> setPrice(e.target.value)}
+                          />
+                </div>
+            </div>
+            <div className="form-row">
+                <div className="form-group ">
+               
+                    <TextField fullWidth label="Image URL" 
+                     style={{marginBottom:"30px"}}
+                            type="text" 
+                            className="form-control" 
+                            name="imageURL"
+                            value={img}
+                            onChange={(e)=> setImage(e.target.value)}
+                           />
+                </div>
+            </div>
+            <div className="form-row">
+                <div className="form-group ">
+                 
+                    <TextField fullWidth label="Category"  
+ style={{marginBottom:"30px"}}
+                            className="form-control" 
+                            name="category" 
+                            value={category}
+                            onChange={(e)=> setCategory(e.target.value)}
+                           />
+                </div>
+            </div>
+
+
+            
+            <br/>
+            <br/>
+
+            <Button   variant="outlined"  onClick={handleCancelPost} startIcon={<ArrowBackIcon />}>
+             Cancel
+             </Button>
+             
+                
+              <Button variant="outlined" type="submit" style={{marginLeft:'50px'}}   startIcon={<ModeEditOutlineIcon />}>
+             Update
+             </Button>
+          
+        </form>
+        </div>
+        </div>
+   
+        
+        
+    </Paper>
+    )
+}
+
+export default EditProduct

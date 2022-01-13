@@ -189,13 +189,20 @@ export default function Users() {
                 </TableCell>
                 <TableCell align="right">{row.phone}</TableCell>
                 <TableCell align="right">{row.address.city} {row.address.city} {row.address.street} {row.address.number}   </TableCell>
-                <TableCell align="right">    <Link to={{
+                <TableCell align="right">   
+                 {/* <Link to={{
                       pathname: '/MoreUser',
                       state: row
                     }} >
                                 
-                  <MoreHorizIcon/>      
-                    </Link></TableCell>
+                        
+                    </Link> */}
+                  
+                    
+                    <Link to={`/MoreUser/${row.id}`} className="btn btn-success">
+                    <MoreHorizIcon/>
+            </Link>
+                    </TableCell>
               </TableRow>
             ))}
           </TableBody>

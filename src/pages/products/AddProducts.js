@@ -1,24 +1,14 @@
-import React, { useState,useEffect } from 'react';
-import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
-import { makeStyles } from '@mui/styles';
-import axios from 'axios';
-import Select from '@mui/material/Select';
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-    },
-  },
-  button: {
-    margin: theme.spacing(1),
-  }
-}))
+import React,{useEffect,useState} from 'react'
+
+import axios from "axios";
+
+import { Button, MenuItem, Paper, TextField } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import AddIcon from '@mui/icons-material/Add';
+
 
 function AddProducts(props) {
-  const classes = useStyles()
+
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -39,7 +29,7 @@ function AddProducts(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setLoading(true)
+  
     axios.post('https://fakestoreapi.com/products', {
       title: title,
       price: parseFloat(price),
@@ -50,7 +40,7 @@ function AddProducts(props) {
       .then(result => {
         if (result.status === 200) {
           setLoading(false)
-          alert('Ajout effectué avec succès')
+          alert('Add it   with success')
         }
 
         props.history.push("/products");
@@ -62,96 +52,116 @@ function AddProducts(props) {
         alert(err)
       })
   };
+  const handleCancelPost = () => {
+    props.history.push("/products");
+
+}
 
 
   return (
-    <Container>
-      <h1>Add New Product</h1>
-      <form className={classes.root} onSubmit={handleSubmit}>
+   
 
-        <div>
-          <TextField
-            name="title"
-            label="title"
-            variant="filled"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          /><br />
-          <TextField
-            name="price"
-            label="price"
-            variant="filled"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
-          <br />
-          <TextField
-            name="category"
-            label="category"
-            variant="filled"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          />
+      <Paper sx={{ p: 2, margin: 'auto', maxWidth: 1000, flexGrow: 1 }}>
+       <div className='container'>
+     
+        <h5 className="card-header">Mise à jour </h5>
+        
+                
+            
+                <div className="form-group">
+                <form onSubmit={handleSubmit}>
+    
+            <div className="form-row">
+                <div className="form-group">
+                
+                    <TextField fullWidth  label="Title" type="text" 
+                            className="form-control" 
+                            name="title"
+                            value={title}
+                            style={{marginBottom:"30px"}}
+                            onChange={(e)=> setTitle(e.target.value)}
+                           />
+                </div>
+
+                <div className="form-group ">
+                   
+                    <TextField fullWidth label="Price"
+                            type="text" 
+                            className="form-control" 
+                            name="price"
+                            value={price}
+                            style={{marginBottom:"30px"}}
+                            onChange={(e)=> setPrice(e.target.value)}
+                          />
+                </div>
+            </div>
+            <div className="form-row">
+                <div className="form-group ">
+               
+                    <TextField fullWidth label="Image URL" 
+                     style={{marginBottom:"30px"}}
+                            type="text" 
+                            className="form-control" 
+                            name="imageURL"
+                            value={image}
+                            onChange={(e)=> setImage(e.target.value)}
+                           />
+                </div>
+            </div>
+
+
+            <div className="form-row">
+                <div className="form-group ">
+               
+                    <TextField fullWidth label="Description" 
+                     style={{marginBottom:"30px"}}
+                            type="text" 
+                            className="form-control" 
+                            name="description"
+                            value={description}
+                            onChange={(e)=> setDescription(e.target.value)}
+                           />
+                </div>
+            </div>
+            <div className="form-row">
+                <div className="form-group ">
+                 
+                <TextField
+    value={category}
+    className="form-control" 
+    onChange={(e)=> setCategory(e.target.value)}
+  select 
+  label="Category"
+  fullWidth
+>
+  <MenuItem value={'electronics'}>electronics</MenuItem>
+    <MenuItem value={'jewelery'}>jewelery</MenuItem>
+    <MenuItem value={'men clothing'}>men's clothing</MenuItem>
+    <MenuItem value={'women clothing'}>women's clothing</MenuItem>
+</TextField>               
+
+
+                </div>
+            </div>
+            <br/>
+            <br/>
+
+            <Button   variant="outlined"  onClick={handleCancelPost} startIcon={<ArrowBackIcon />}>
+             Cancel
+             </Button>
+             
+                
+              <Button variant="outlined" type="submit" style={{marginLeft:'50px'}}   startIcon={<AddIcon />}>
+             Save
+             </Button>
           
-          
-          
-         
-
-
-
-
-
-
-                                    <Select name="category" >
-                        <option value="">Choose a category</option>
-                        {prod.map((value) => (
-                            <option value={value.id} key={value.id}>
-                                {value}
-                            </option>
-                        ))}
-                    </Select>
-          
-          <br />
-          <TextField
-            name="description"
-            label="description"
-            variant="filled"
-            multiline
-
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          /><br />
-          <TextField
-            name="image"
-            label="Image URL"
-            variant="filled"
-            multiline
-
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-          /><br />
-          {/* <Input accept="image/jpg, image/jpeg, image/png" type="file"  name="image" onChange={(e) => setSelectedFile(e.target.files[0]) }  /> */}
+        </form>
         </div>
-
-        <Button
-          className={classes.button}
-          variant="contained"
-          color="primary"
-          type="submit"
-
-          onClick={handleSubmit}
-        >{loading ? <CircularProgress color="inherit" /> : 'Save'}</Button>
-
-        {loading ? null : <Button
-          className={classes.button}
-          variant="contained"
-          color="default"
-          type="submit"
-
-          onClick={() => props.history.push("/products")}
-        >Cancel</Button>}
-      </form>
-    </Container>
+        </div>
+   
+        
+        
+    </Paper>
   );
 }
 

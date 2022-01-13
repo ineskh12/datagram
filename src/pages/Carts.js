@@ -97,9 +97,13 @@ export default function Carts() {
 
   const requestSearch = (e) => {
     if (e.target.value !== '') {
+
       var result = users.filter((element) => {
-        return element.name.firstname.toLowerCase().includes(e.target.value.toString().toLowerCase())
-          || element.name.lastname.toLowerCase().includes(e.target.value.toString().toLowerCase())
+         //var test
+
+        return   moment(element.date).format("DD/MM/YYYY").toLowerCase().includes(e.target.value.toString().toLowerCase())
+
+          //|| element.name.lastname.toLowerCase().includes(e.target.value.toString().toLowerCase())
       })
       console.log(result);
       setFiltredUsers(result);
@@ -179,13 +183,13 @@ export default function Carts() {
                 
                 
                 </TableCell>
-                <TableCell align="right">    <Link to={{
-                      pathname: '/Morecart',
-                      state: row
-                    }} >
-                                
-                  <MoreHorizIcon/>      
-                    </Link></TableCell>
+
+                <TableCell align="right">    
+                <Link to={`/Morecart/${row.id}`} className="btn btn-success">
+                    <MoreHorizIcon/>
+            </Link>
+            
+            </TableCell>
             
               </TableRow>
             ))}

@@ -14,9 +14,9 @@ import axios from 'axios';
 
 export default function Categories() {
   const [prod, setProds] = useState([]);
-  
+  const baseUrl = 'https://fakestoreapi.com/products/categories'
  useEffect(() => {
-        axios.get('https://fakestoreapi.com/products/categories').then(response => {
+        axios.get(baseUrl).then(response => {
             setProds(response.data);
             console.log(response.data);
            

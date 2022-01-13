@@ -8,7 +8,7 @@ import Container from '@mui/material/Container';
 function Copyright() {
     return (
         <Typography variant="body2" color="text.secondary">
-            {'Copyright ©  Ines khelifi'}
+            {'Copyright ©  Ines khelifi'} &nbsp;
           
             {new Date().getFullYear()}
             {'.'}
