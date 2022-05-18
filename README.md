@@ -1,6 +1,5 @@
-# DATAGRAM
+# Redspher
 
-  <img src="https://www.datagram.ai/wp-content/uploads/2020/07/logo_xl_blanc.png" alt="" data-canonical-src="https://www.disruptunisia.com/logo/60210867840da.png" width="250" />
 
 ## Installation
 
